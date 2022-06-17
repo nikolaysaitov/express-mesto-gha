@@ -26,9 +26,8 @@ app.use('/', require('./routes/cards'));
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
-  console.log(`App listening port ${PORT}`)
-})
-
+  console.log(`App listening port ${PORT}`);
+});
 
 // _id 62aa5038e6a8d6f9863920ff
 //  {
