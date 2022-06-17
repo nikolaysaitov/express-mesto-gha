@@ -11,18 +11,17 @@ module.exports.getCards = (_req, res) => {
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
-
   Card.create({ name, link, owner })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(400)
-          .send({ message: 'Некорректные данные при создании карточки' });
+    .then((card) => res.status(200).send(card))
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Переданы некорректные данные при создании карточки' });
+        return;
       }
-      return res.status(500).send({ message: 'Ошибка' });
+      res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
+
 
 
 // DELETE /cards/:cardId — удаляет карточку по идентификатору
