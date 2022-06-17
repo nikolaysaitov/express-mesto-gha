@@ -26,25 +26,21 @@ module.exports.createCard = (req, res) => {
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
-      if (card === null) {
-        return res.status(404).send({ message: '_id карточки не найден.' });
+      if (!card) {
+        res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
+        return;
       }
-      return res.send({ data: card });
+      res.status(200).send(card);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res
-          .status(404)
-          .send({ message: 'Пользователь по _id не найден' });
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'Некорректные данные' });
+        return;
       }
-      if (err.name === 'ValidationError') {
-        return res
-          .status(400)
-          .send({ message: 'Некорректные данные для удаления' });
-      }
-      return res.status(500).send({ message: 'Ошибка по умолчанию.' });
+      res.status(500).send({ message: 'Ошибка' });
     });
 };
+
 
 // PUT /cards/:cardId/likes — поставить лайк карточке
 
