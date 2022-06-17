@@ -9,9 +9,9 @@ module.exports.getCards = (_req, res) => {
 
 // POST /cards — создаёт карточку
 module.exports.createCard = (req, res) => {
+  console.log(req.user._id);
   const { name, link } = req.body;
-  const owner = req.user._id;
-  Card.create({ name, link, owner })
+  Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(200).send(card))
     .catch((error) => {
       if (error.name === 'ValidationError') {
@@ -69,7 +69,7 @@ module.exports.likeCard = (req, res) => Card.findByIdAndUpdate(
     return res.status(500).send({ message: 'Ошибка' });
   });
 
-// DELETE /cards/:cardId/likes — убрать лайк с карточки
+// // DELETE /cards/:cardId/likes — убрать лайк с карточки
 module.exports.dislikeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $pull: { likes: req.user._id } },
