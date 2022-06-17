@@ -9,7 +9,6 @@ module.exports.getCards = (_req, res) => {
 
 // POST /cards — создаёт карточку
 module.exports.createCard = (req, res) => {
-  console.log(req.user._id);
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(200).send(card))
@@ -40,7 +39,6 @@ module.exports.deleteCard = (req, res) => {
       res.status(500).send({ message: 'Ошибка' });
     });
 };
-
 
 // PUT /cards/:cardId/likes — поставить лайк карточке
 

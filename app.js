@@ -1,6 +1,7 @@
 // app.js — входной файл
 
 const express = require('express');
+
 const { PORT = 3000 } = process.env;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -28,10 +29,7 @@ app.patch('*', (_req, res) => {
   res.status(404).send({ message: 'Упс!...Не найдено' });
 });
 
-app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  console.log(`App listening port ${PORT}`);
-});
+app.listen(PORT);
 
 // _id 62aa5038e6a8d6f9863920ff
 //  {
