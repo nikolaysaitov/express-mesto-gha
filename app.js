@@ -24,6 +24,10 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
+app.patch('*', (_req, res) => {
+  res.status(404).send({ message: 'Упс!...Не найдено' });
+});
+
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
   console.log(`App listening port ${PORT}`);
