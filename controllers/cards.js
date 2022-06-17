@@ -24,6 +24,7 @@ module.exports.createCard = (req, res) => {
     });
 };
 
+
 // DELETE /cards/:cardId — удаляет карточку по идентификатору
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
@@ -53,7 +54,7 @@ module.exports.likeCard = (req, res) =>
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (card === null) {
@@ -82,7 +83,7 @@ module.exports.dislikeCard = (req, res) =>
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (card === null) {
