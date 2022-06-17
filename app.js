@@ -30,4 +30,8 @@ app.listen(PORT, () => {
 
 
 // _id 62aa5038e6a8d6f9863920ff
-
+//  {
+//   "name":"ропрпь",
+//   "about":"олло",
+//   "avatar":"https://doctor-veterinar.ru/media/k2/items/cache/675d28c04794e3c683f4419536c4c15f_XL.jpg"
+// }
