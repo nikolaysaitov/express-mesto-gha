@@ -1,28 +1,30 @@
-// models/user.js
 const mongoose = require('mongoose');
+const User = require('./user');
 
 const cardSchema = new mongoose.Schema({
   name: {
-    // у пользователя есть имя — опишем требования к имени в схеме:
-    type: String, // имя — это строка
-    required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
-    minlength: 2, // минимальная длина имени — 2 символа
-    maxlength: 30, // а максимальная — 30 символов
+    required: true,
+    type: String,
+    minlength: 2,
+    maxlength: 30,
   },
   link: {
-    type: String, // имя — это строка
-    required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
+    required: true,
+    type: String,
   },
   owner: {
+    required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
+    ref: User,
   },
-  likes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    default: [],
-  },
+  likes: [
+    {
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      default: [],
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
