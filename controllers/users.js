@@ -55,7 +55,7 @@ module.exports.updateUser = (req, res) => {
       new: true,
       runValidators: true,
       upsert: true,
-    }
+    },
   )
     .then((user) => {
       if (!user) {
@@ -82,7 +82,7 @@ module.exports.updateAvatar = (req, res) => {
       new: true,
       runValidators: true,
       upsert: true,
-    }
+    },
   )
     .then((user) => {
       if (!user) {
