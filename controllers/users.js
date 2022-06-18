@@ -59,13 +59,12 @@ module.exports.updateUser = (req, res) => {
     });
 };
 
-
 // PATCH /users/me/avatar — обновляет аватар
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, {
-    new: true, // обработчик then получит на вход обновлённую запись
-    runValidators: true, // данные будут валидированы перед изменением
+    new: true,
+    runValidators: true,
   })
     .then((user) => res.status(200).send(user))
     .catch((error) => {
