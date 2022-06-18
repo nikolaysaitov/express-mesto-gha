@@ -44,17 +44,11 @@ module.exports.createUser = (req, res) => {
 
 // PATCH /users/me — обновляет профиль
 module.exports.updateUser = (req, res) => {
-  User.findByIdAndUpdate(
-    req.body._id,
-    {
-      name: req.body.name,
-      about: req.body.about,
-    },
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, about }, {
+    new: true,
+    runValidators: true,
+  })
     .then((user) => res.status(200).send(user))
     .catch((error) => {
       if (error.name === 'ValidationError') {
@@ -65,16 +59,14 @@ module.exports.updateUser = (req, res) => {
     });
 };
 
+
 // PATCH /users/me/avatar — обновляет аватар
 module.exports.updateAvatar = (req, res) => {
-  User.findByIdAndUpdate(
-    req.body._id,
-    { avatar: req.body.avatar },
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(req.user._id, { avatar }, {
+    new: true, // обработчик then получит на вход обновлённую запись
+    runValidators: true, // данные будут валидированы перед изменением
+  })
     .then((user) => res.status(200).send(user))
     .catch((error) => {
       if (error.name === 'ValidationError') {
@@ -84,4 +76,3 @@ module.exports.updateAvatar = (req, res) => {
       res.status(500).send({ message: 'Ошибка' });
     });
 };
-
