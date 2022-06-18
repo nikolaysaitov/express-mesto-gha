@@ -55,19 +55,13 @@ module.exports.updateUser = (req, res) => {
       runValidators: true,
     },
   )
-    .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'Пользователь по _id не найден' });
+    .then((user) => res.status(200).send(user))
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Некорректные данные при обновлении профиля' });
+        return;
       }
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({
-          message: 'Переданы некорректные данные при обновлении профиля',
-        });
-      }
-      return res.status(500).send({ message: 'Ошибка' });
+      res.status(500).send({ message: 'Ошибка' });
     });
 };
 
@@ -81,18 +75,13 @@ module.exports.updateAvatar = (req, res) => {
       runValidators: true,
     },
   )
-    .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'Пользователь по _id не найден' });
+    .then((user) => res.status(200).send(user))
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        res.status(400).send({ message: 'Некорректные данные при обновлении аватара' });
+        return;
       }
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({
-          message: 'Некорректные данные при обновлении аватара',
-        });
-      }
-      return res.status(500).send({ message: 'Ошибка' });
+      res.status(500).send({ message: 'Ошибка' });
     });
 };
+
