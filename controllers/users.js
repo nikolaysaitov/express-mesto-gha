@@ -100,25 +100,31 @@ module.exports.updateAvatar = (req, res, next) => {
     });
 };
 // Создайте контроллер login
-module.exports.login = (req, res, next) => {
+module.exports.login = (req, res) => {
   const { email, password } = req.body;
-  User.findOne({ email })
+
+  User.findOne({ email }).select('+password') // в случае аутентификации хеш пароля нужен
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+        return Promise.reject(new AuthError('Неправильные почта или пароль'));
       }
-      return bcrypt.compare(password, user.password);
+      return Promise.all([bcrypt.compare(password, user.password), user]);
     })
-    .then((user) => {
+    .then(([isPasswordCorrect, user]) => {
+      if (!isPasswordCorrect) {
+        return Promise.reject(new AuthError('Неправильная почта или пароль'));
+      }
       const token = jwt.sign(
         { _id: user._id },
         'some-secret-key',
         { expiresIn: '7d' },
       );
-      res.send({ token });
+      return res.send({ token });
     })
-    .catch(() => {
-      next(new AuthError('Ошибка'));
+    .catch((err) => {
+      res
+        .status(401)
+        .send({ message: err.message });
     });
 };
 
