@@ -9,6 +9,7 @@ const {
 } = require('../controllers/users');
 
 router.get('/users', getUsers); // возвращает всех пользователей
+router.get('/users/me', getUserInfo); // GET /users/me - возвращает информацию о текущем пользователе
 router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
     userId: Joi.string().hex().length(24),
@@ -26,5 +27,4 @@ router.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(/^https?:\/\/(www\.)?[a-zA-Z\d-]+\.[\w\d\-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/),
   }),
 }), updateAvatar); // обновляет аватар
-router.get('/me', getUserInfo); // GET /users/me - возвращает информацию о текущем пользователе
 module.exports = router;
