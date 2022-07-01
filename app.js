@@ -41,11 +41,11 @@ app.post('/signin', celebrate({
   }),
 }), login);
 
-app.use(auth);
-app.use('/', require('./routes/users'));
-app.use('/', require('./routes/cards'));
+// app.use(auth);
+app.use('/', auth, require('./routes/users'));
+app.use('/', auth, require('./routes/cards'));
 
-app.use('*', (_req, res) => {
+app.use('*', (_req, res, next) => {
   res.status(404).send({ message: 'Упс!...Не найдено' });
 });
 
@@ -66,6 +66,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  console.log(`App listening port ${PORT}`)
-})
+  console.log(`App listening port ${PORT}`);
+});
