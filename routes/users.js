@@ -26,5 +26,5 @@ router.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(/^https?:\/\/(www\.)?[a-zA-Z\d-]+\.[\w\d\-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/),
   }),
 }), updateAvatar); // обновляет аватар
-router.get('/users/me', getUserInfo); // GET /users/me - возвращает информацию о текущем пользователе
+router.get('/me', getUserInfo); // GET /users/me - возвращает информацию о текущем пользователе
 module.exports = router;
