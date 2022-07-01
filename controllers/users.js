@@ -133,20 +133,17 @@ module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError('Пользователь по указанному id не найден');
       }
-      return res.send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        _id: user._id,
-      });
+      res
+        .status(200)
+        .send({ data: user });
     })
-    .catch((error) => {
-      if (error.name === 'ValidError') {
-        return next(new ValidError('Некорректный id'));
+    .catch((err) => {
+      if (err.name === 'AuthError') {
+        next(new AuthError('Введен некорректный id пользователя'));
+      } else {
+        next(err);
       }
-      return next(error);
     });
 };
