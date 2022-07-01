@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
-const auth = require('./middlewares/auth');
+// const auth = require('./middlewares/auth');
 
 const app = express();
 // подключаемся к серверу mongo
@@ -42,10 +42,10 @@ app.post('/signin', celebrate({
 }), login);
 
 // app.use(auth);
-app.use('/', auth, require('./routes/users'));
-app.use('/', auth, require('./routes/cards'));
+app.use('/', require('./routes/users'));
+app.use('/', require('./routes/cards'));
 
-app.use('*', (_req, res, next) => {
+app.use('*', (req, res) => {
   res.status(404).send({ message: 'Упс!...Не найдено' });
 });
 
