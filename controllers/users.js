@@ -135,11 +135,17 @@ module.exports.getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.send({
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+        _id: user._id,
+      });
     })
     .catch((error) => {
-      if (error.name === 'ValidationError') {
-        return next(new AuthError('Некорректный id'));
+      if (error.name === 'ValidError') {
+        return next(new ValidError('Некорректный id'));
       }
       return next(error);
     });
