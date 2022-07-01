@@ -34,4 +34,7 @@ app.use('*', (_req, res) => {
   res.status(404).send({ message: 'Упс!...Не найдено' });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  // Если всё работает, консоль покажет, какой порт приложение слушает
+  console.log(`App listening port ${PORT}`)
+})
