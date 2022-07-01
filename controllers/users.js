@@ -133,13 +133,14 @@ module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден');
+        throw new NotFoundError('Пользователь по _id не найден');
       }
       return res.status(200).send({ data: user });
     })
+
     .catch((error) => {
       if (error.name === 'ValidError') {
-        return next(new ValidError('Некорректный id пользователя'));
+        return next(new ValidError('Некорректный id'));
       }
       return next(error);
     });
