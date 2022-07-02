@@ -40,7 +40,7 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send({
+    .then((user) => res.status(201).send({
       name: user.name,
       about: user.about,
       avatar: user.avatar,
@@ -100,7 +100,7 @@ module.exports.updateAvatar = (req, res, next) => {
     });
 };
 // Создайте контроллер login
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findOne({ email }).select('+password') // в случае аутентификации хеш пароля нужен
@@ -121,11 +121,7 @@ module.exports.login = (req, res) => {
       );
       return res.send({ token });
     })
-    .catch((err) => {
-      res
-        .status(401)
-        .send({ message: err.message });
-    });
+    .catch(next);
 };
 
 // GET /users/me - возвращает информацию о текущем пользователе
@@ -137,9 +133,8 @@ module.exports.getUserInfo = (req, res, next) => {
       }
       return res.status(200).send({ data: user });
     })
-
     .catch((error) => {
-      if (error.name === 'ValidError') {
+      if (error.name === 'CastError') {
         return next(new ValidError('Некорректный id'));
       }
       return next(error);

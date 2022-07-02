@@ -12,14 +12,13 @@ router.get('/users', getUsers); // возвращает всех пользов�
 router.get('/users/me', getUserInfo); // GET /users/me - возвращает информацию о текущем пользователе
 router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().hex().length(24),
+    userId: Joi.string().required().hex().length(24),
   }),
 }), getUser); // возвращает пользователя по _id
-// router.post('/users', createUser); //удалите обработчик создания пользователя, он больше не нужен
 router.patch('/users/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
   }),
 }), updateUser); // обновляет профиль
 router.patch('/users/me/avatar', celebrate({
