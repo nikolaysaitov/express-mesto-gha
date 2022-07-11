@@ -9,6 +9,7 @@ const { celebrate, Joi, errors } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err_404');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 // подключаемся к серверу mongo
@@ -17,6 +18,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 // подключаем мидлвары, роуты и всё остальное...
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(requestLogger); // подключаем логгер запросов
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -42,6 +45,8 @@ app.use('/', require('./routes/cards'));
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
+
+app.use(errorLogger); // подключаем логгер ошибок
 
 // обработчики ошибок
 app.use(errors()); // обработчик ошибок celebrate
