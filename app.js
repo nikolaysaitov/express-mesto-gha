@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cors);
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(requestLogger); // подключаем логгер запросов
+app.use(requestLogger); // подключаем логгерзапросов
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
