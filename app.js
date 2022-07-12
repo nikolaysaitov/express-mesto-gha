@@ -6,9 +6,9 @@ const { PORT = 3000 } = process.env;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
-const cors = require('./middlewares/cors');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/not-found-err_404');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
