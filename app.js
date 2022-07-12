@@ -6,8 +6,18 @@ const { PORT = 3000 } = process.env;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
+const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const allowedCors = {
+  origin: [
+    'https://saitovkms.nomoredomains.xyz/',
+    'http://saitovkms.nomoredomains.xyz/',
+    'http://localhost:3000',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+};
 const NotFoundError = require('./errors/not-found-err_404');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -17,6 +27,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 // подключаем мидлвары, роуты и всё остальное...
 app.use(bodyParser.json());
+app.use(cors(allowedCors));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // подключаем логгер запросов
