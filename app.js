@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const cors = require('./middlewares/cors');
+// const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/not-found-err_404');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -21,7 +21,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 // подключаем мидлвары, роуты и всё остальное...
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(cors);
+// app.use(cors);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
